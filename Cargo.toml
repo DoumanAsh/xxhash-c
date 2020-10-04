@@ -16,7 +16,7 @@ include = [
 ]
 
 [dependencies]
-xxhash-c-sys = "0.8.0"
+xxhash-c-sys = "0.8.0+1"
 
 [dev-dependencies]
 get-random-const = "2"
