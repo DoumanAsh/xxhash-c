@@ -69,8 +69,6 @@ impl XXH64 {
 
     #[inline]
     ///Creates new instance.
-    ///
-    ///Returns `None` if `XXH64_reset` fails
     pub fn new(seed: u64) -> Self {
         let mut result = unsafe {
             Self::uninit()
@@ -171,8 +169,6 @@ impl XXH3_64 {
 
     #[inline]
     ///Creates new instance.
-    ///
-    ///Returns `None` if `XXH64_reset` fails
     pub fn new() -> Self {
         let mut result = unsafe {
             Self::uninit()
@@ -185,8 +181,6 @@ impl XXH3_64 {
 
     #[inline(always)]
     ///Resets hasher's state according to specified reset policy.
-    ///
-    ///If `None` uses default.
     pub fn reset<R: Xxh3Reset>(&mut self, reset: R) {
         reset.reset(self.state.as_mut_ptr());
     }
