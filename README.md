@@ -6,4 +6,4 @@
 
 High level wrapper for [xxHash](https://github.com/Cyan4973/xxHash)
 
-Version corresponds to xxHash [releases](https://github.com/Cyan4973/xxHash/releases) except `0.8.x` which had to be extra bumped.
+Version corresponds to xxHash [releases](https://github.com/Cyan4973/xxHash/releases)
