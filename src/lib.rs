@@ -210,3 +210,57 @@ impl Default for XXH3_64 {
         Self::new()
     }
 }
+
+///Streaming version of `XXH3` 128 bit algorithm.
+pub struct XXH3_128 {
+    state: mem::MaybeUninit<sys::XXH3_state_t>,
+}
+
+impl XXH3_128 {
+    #[inline]
+    ///Creates uninitialized instance.
+    ///
+    ///It is unsafe to use any method before calling `reset`
+    pub const unsafe fn uninit() -> Self {
+        let state = mem::MaybeUninit::uninit();
+        Self { state }
+    }
+
+    #[inline]
+    ///Creates new instance.
+    pub fn new() -> Self {
+        let mut result = unsafe { Self::uninit() };
+
+        result.reset(Xxh3DefaultReset);
+
+        result
+    }
+
+    #[inline(always)]
+    ///Resets hasher's state according to specified reset policy.
+    pub fn reset<R: Xxh3Reset>(&mut self, reset: R) {
+        reset.reset(self.state.as_mut_ptr());
+    }
+
+    #[inline]
+    pub fn finish(&self) -> u128 {
+        let result = unsafe { sys::XXH3_128bits_digest(self.state.as_ptr()) };
+        (result.high64 as u128) << 64 | result.low64 as u128
+    }
+
+    #[inline]
+    pub fn write(&mut self, input: &[u8]) {
+        let result = unsafe {
+            sys::XXH3_128bits_update(self.state.as_mut_ptr(), input.as_ptr() as _, input.len())
+        };
+
+        debug_assert_eq!(result, sys::XXH_errorcode_XXH_OK);
+    }
+}
+
+impl Default for XXH3_128 {
+    #[inline(always)]
+    fn default() -> Self {
+        Self::new()
+    }
+}
