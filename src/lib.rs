@@ -243,12 +243,14 @@ impl XXH3_128 {
     }
 
     #[inline]
+    ///Calculates hash's result
     pub fn finish(&self) -> u128 {
         let result = unsafe { sys::XXH3_128bits_digest(self.state.as_ptr()) };
         (result.high64 as u128) << 64 | result.low64 as u128
     }
 
     #[inline]
+    ///Adds new chunk of data to the hash.
     pub fn write(&mut self, input: &[u8]) {
         let result = unsafe {
             sys::XXH3_128bits_update(self.state.as_mut_ptr(), input.as_ptr() as _, input.len())
