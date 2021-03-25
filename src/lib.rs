@@ -1,6 +1,7 @@
 //!Safe bindings to [xxHash](https://github.com/Cyan4973/xxHash)
 
 #![no_std]
+#![deny(warnings)]
 #![warn(missing_docs)]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::style))]
 
