@@ -143,7 +143,7 @@ impl Xxh3Reset for u64 {
 
 impl Xxh3Reset for &'_ [u8] {
     fn reset(self, state: *mut sys::XXH3_state_t) {
-        debug_assert!(self.len() >= xxhash_c_sys::XXH3_SECRET_SIZE_MIN);
+        debug_assert!(self.len() >= xxhash_c_sys::XXH3_SECRET_SIZE_MIN as usize);
         let result = unsafe { sys::XXH3_64bits_reset_withSecret(state, self.as_ptr() as _, self.len()) };
         debug_assert_eq!(result, sys::XXH_errorcode_XXH_OK);
     }
